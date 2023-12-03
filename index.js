@@ -40,6 +40,20 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     //await client.connect();
 
+    //get some data
+    app.get('/properties', async (req, res) =>{
+        
+        console.log(req.query.agentEmail);
+        let query = {};
+        if(req.query?.agentEmail){
+            query = {agentEmail: req.query.agentEmail}
+        }
+
+        const cursor = propertiesCollection.find(query);
+        const result = await cursor.toArray();
+        res.send(result);
+      })
+
     //get all data
     app.get('/users', async (req, res) =>{
           const cursor = usersCollection.find();
