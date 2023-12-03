@@ -83,6 +83,32 @@ async function run() {
         console.log(result);       
     });
 
+    //Delete data
+    app.delete('/properties/:cid', async(req, res) => {
+        const id  = req.params.cid;
+        console.log(`PLEASE DELETE ID FROM DATABASE: ${id}`);
+        const query = { _id: new ObjectId(id)};
+        console.log(query);
+        
+        const result = await propertiesCollection.deleteOne(query);
+        res.send(result);
+      })
+
+    //api for update data
+    app.patch('/properties/:id', async(req, res) =>{
+        const id = req.params.id;
+        const filter = {_id: new ObjectId(id)}
+        const updateStatus = req.body;
+        console.log(updateStatus);
+        const updateDoc = {
+            $set: {
+              status: updateStatus.status
+            },
+          };
+        const result = await propertiesCollection.updateOne(filter, updateDoc);
+        res.send(result);
+    })
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
