@@ -33,6 +33,7 @@ const client = new MongoClient(uri, {
 
 const database = client.db("HexagonDB");
 const usersCollection = database.collection("users");
+const propertiesCollection = database.collection("properties");
 
 async function run() {
   try {
@@ -45,12 +46,25 @@ async function run() {
           const result = await cursor.toArray();
           res.send(result);
         })
+    app.get('/properties', async (req, res) =>{
+          const cursor = propertiesCollection.find();
+          const result = await cursor.toArray();
+          res.send(result);
+        })
 
     //create data or insert a data to database
     app.post("/users", async (req, res) => {
         console.log(req.body);
         const newUser = req.body;
         const result = await usersCollection.insertOne(newUser);
+        res.send(result);
+        console.log(result);       
+    });
+
+    app.post("/properties", async (req, res) => {
+        console.log(req.body);
+        const newProperty = req.body;
+        const result = await propertiesCollection.insertOne(newProperty);
         res.send(result);
         console.log(result);       
     });
