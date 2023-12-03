@@ -34,6 +34,7 @@ const client = new MongoClient(uri, {
 const database = client.db("HexagonDB");
 const usersCollection = database.collection("users");
 const propertiesCollection = database.collection("properties");
+const WishlistCollection = database.collection("wishlist");
 
 async function run() {
   try {
@@ -65,6 +66,11 @@ async function run() {
           const result = await cursor.toArray();
           res.send(result);
         })
+    app.get('/wishlist', async (req, res) =>{
+          const cursor = WishlistCollection.find();
+          const result = await cursor.toArray();
+          res.send(result);
+        })
 
     //get one data
     app.get('/properties/:id', async (req, res) =>{
@@ -89,6 +95,15 @@ async function run() {
         res.send(result);
         console.log(result);       
     });
+
+    app.post("/wishlist", async (req, res) => {
+        console.log(req.body);
+        const newWishList = req.body;
+        const result = await WishlistCollection.insertOne(newWishList);
+        res.send(result);
+        console.log(result);       
+    });
+
 
     //Delete data
     app.delete('/properties/:cid', async(req, res) => {
