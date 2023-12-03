@@ -66,6 +66,13 @@ async function run() {
           res.send(result);
         })
 
+    //get one data
+    app.get('/properties/:id', async (req, res) =>{
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id)};
+        const property = await propertiesCollection.findOne(query);
+        res.send(property);
+      })
     //create data or insert a data to database
     app.post("/users", async (req, res) => {
         console.log(req.body);
@@ -108,6 +115,26 @@ async function run() {
         const result = await propertiesCollection.updateOne(filter, updateDoc);
         res.send(result);
     })
+
+    app.put('/properties/:id', async (req, res) => {
+        const id = req.params.id;
+        const toBeUpdatedProperty = req.body;
+        console.log(toBeUpdatedProperty);
+        const query = { _id: new ObjectId(id)};
+        const options = { upsert: true };
+        const updateProperty = {
+          $set: {
+            image:toBeUpdatedProperty.fImage,
+            title:toBeUpdatedProperty.fPropertyTitle,
+            location:toBeUpdatedProperty.fLocation,
+            agentName:toBeUpdatedProperty.fAgentName,
+            agentEmail:toBeUpdatedProperty.fAgentEmail,
+            priceRange:toBeUpdatedProperty.fPriceRange,
+          }
+        }
+        const result = await propertiesCollection.updateOne(query, updateProperty, options);
+        res.send(result);
+      })
 
 
     // Send a ping to confirm a successful connection
