@@ -35,6 +35,7 @@ const database = client.db("HexagonDB");
 const usersCollection = database.collection("users");
 const propertiesCollection = database.collection("properties");
 const WishlistCollection = database.collection("wishlist");
+const ReviewsCollection = database.collection("reviews");
 
 async function run() {
   try {
@@ -71,6 +72,11 @@ async function run() {
           const result = await cursor.toArray();
           res.send(result);
         })
+    app.get('/reviews', async (req, res) =>{
+          const cursor = ReviewsCollection.find();
+          const result = await cursor.toArray();
+          res.send(result);
+        })
 
     //get one data
     app.get('/properties/:id', async (req, res) =>{
@@ -100,6 +106,14 @@ async function run() {
         console.log(req.body);
         const newWishList = req.body;
         const result = await WishlistCollection.insertOne(newWishList);
+        res.send(result);
+        console.log(result);       
+    });
+
+    app.post("/reviews", async (req, res) => {
+        console.log(req.body);
+        const newReview = req.body;
+        const result = await ReviewsCollection.insertOne(newReview);
         res.send(result);
         console.log(result);       
     });
