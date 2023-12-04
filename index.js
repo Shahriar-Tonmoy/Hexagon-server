@@ -36,6 +36,7 @@ const usersCollection = database.collection("users");
 const propertiesCollection = database.collection("properties");
 const WishlistCollection = database.collection("wishlist");
 const ReviewsCollection = database.collection("reviews");
+const offersCollection = database.collection("offers");
 
 async function run() {
   try {
@@ -102,6 +103,11 @@ async function run() {
           const result = await cursor.toArray();
           res.send(result);
         })
+    app.get('/offers', async (req, res) =>{
+          const cursor = offersCollection.find();
+          const result = await cursor.toArray();
+          res.send(result);
+        })
 
     //get one data
     app.get('/properties/:id', async (req, res) =>{
@@ -139,6 +145,14 @@ async function run() {
         console.log(req.body);
         const newReview = req.body;
         const result = await ReviewsCollection.insertOne(newReview);
+        res.send(result);
+        console.log(result);       
+    });
+
+    app.post("/offers", async (req, res) => {
+        console.log(req.body);
+        const newOffer = req.body;
+        const result = await offersCollection.insertOne(newOffer);
         res.send(result);
         console.log(result);       
     });
