@@ -51,6 +51,9 @@ async function run() {
         if(req.query?.agentEmail){
             query = {agentEmail: req.query.agentEmail}
         }
+        else if(req.query?.advertise){
+            query = {advertise: req.query.advertise}
+        }
 
         const cursor = propertiesCollection.find(query);
         const result = await cursor.toArray();
@@ -217,14 +220,16 @@ async function run() {
 
     //api for update data
     app.patch('/properties/:id', async(req, res) =>{
+        let update = {};
+        if (req.body?.status) update.status = req.body.status;
+        if (req.body?.advertise) update.advertise = req.body.advertise;
         const id = req.params.id;
         const filter = {_id: new ObjectId(id)}
         const updateStatus = req.body;
         console.log(updateStatus);
         const updateDoc = {
-            $set: {
-              status: updateStatus.status
-            },
+            $set: update
+            
           };
         const result = await propertiesCollection.updateOne(filter, updateDoc);
         res.send(result);
