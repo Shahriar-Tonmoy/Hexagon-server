@@ -201,6 +201,15 @@ async function run() {
         const result = await ReviewsCollection.deleteOne(query);
         res.send(result);
       })
+    app.delete('/users/:cid', async(req, res) => {
+        const id  = req.params.cid;
+        console.log(`PLEASE DELETE ID FROM DATABASE: ${id}`);
+        const query = { _id: new ObjectId(id)};
+        console.log(query);
+        
+        const result = await usersCollection.deleteOne(query);
+        res.send(result);
+      })
 
     //api for update data
     app.patch('/properties/:id', async(req, res) =>{
@@ -214,6 +223,20 @@ async function run() {
             },
           };
         const result = await propertiesCollection.updateOne(filter, updateDoc);
+        res.send(result);
+    })
+    app.patch('/users/:id', async(req, res) =>{
+        const id = req.params.id;
+        const filter = {_id: new ObjectId(id)}
+        const updateData = req.body;
+        console.log(updateData);
+        const updateDoc = {
+            $set: {
+              role: updateData.role,
+              fraud: updateData.fraud
+            },
+          };
+        const result = await usersCollection.updateOne(filter, updateDoc);
         res.send(result);
     })
 
