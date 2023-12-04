@@ -91,6 +91,9 @@ async function run() {
         if(req.query?.BuyerEmail){
             query = {BuyerEmail: req.query.BuyerEmail}
         }
+        else if(req.query?.AgentEmail){
+            query = {AgentEmail: req.query?.AgentEmail}
+        }
 
         const cursor = offersCollection.find(query);
         const result = await cursor.toArray();
@@ -237,6 +240,19 @@ async function run() {
             },
           };
         const result = await usersCollection.updateOne(filter, updateDoc);
+        res.send(result);
+    })
+    app.patch('/offers/:id', async(req, res) =>{
+        const id = req.params.id;
+        const filter = {_id: new ObjectId(id)}
+        const updateData = req.body;
+        console.log(updateData);
+        const updateDoc = {
+            $set: {
+                Status: updateData.Status,
+            },
+          };
+        const result = await offersCollection.updateOne(filter, updateDoc);
         res.send(result);
     })
 
