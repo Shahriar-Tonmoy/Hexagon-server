@@ -56,6 +56,31 @@ async function run() {
         res.send(result);
       })
 
+    app.get('/reviews', async (req, res) =>{
+        
+        console.log(req.query.propertyId);
+        let query = {};
+        if(req.query?.propertyId){
+            query = {propertyId: req.query.propertyId}
+        }
+
+        const cursor = ReviewsCollection.find(query);
+        const result = await cursor.toArray();
+        res.send(result);
+      })
+    app.get('/wishlist', async (req, res) =>{
+        
+        console.log(req.query.userEmail);
+        let query = {};
+        if(req.query?.userEmail){
+            query = {userEmail: req.query.userEmail}
+        }
+
+        const cursor = WishlistCollection.find(query);
+        const result = await cursor.toArray();
+        res.send(result);
+      })
+
     //get all data
     app.get('/users', async (req, res) =>{
           const cursor = usersCollection.find();
