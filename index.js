@@ -81,6 +81,18 @@ async function run() {
         const result = await cursor.toArray();
         res.send(result);
       })
+    app.get('/offers', async (req, res) =>{
+        
+        console.log(req.query.BuyerEmail);
+        let query = {};
+        if(req.query?.BuyerEmail){
+            query = {BuyerEmail: req.query.BuyerEmail}
+        }
+
+        const cursor = offersCollection.find(query);
+        const result = await cursor.toArray();
+        res.send(result);
+      })
 
     //get all data
     app.get('/users', async (req, res) =>{
