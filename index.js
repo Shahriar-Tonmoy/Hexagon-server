@@ -107,6 +107,7 @@ async function run() {
           res.send(result);
         })
     app.get('/properties', async (req, res) =>{
+
           const cursor = propertiesCollection.find();
           const result = await cursor.toArray();
           res.send(result);
