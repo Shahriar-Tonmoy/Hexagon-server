@@ -154,6 +154,15 @@ async function run() {
         const result = await propertiesCollection.deleteOne(query);
         res.send(result);
       })
+    app.delete('/wishlist/:cid', async(req, res) => {
+        const id  = req.params.cid;
+        console.log(`PLEASE DELETE ID FROM DATABASE: ${id}`);
+        const query = { _id: new ObjectId(id)};
+        console.log(query);
+        
+        const result = await WishlistCollection.deleteOne(query);
+        res.send(result);
+      })
 
     //api for update data
     app.patch('/properties/:id', async(req, res) =>{
