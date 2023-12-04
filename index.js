@@ -62,7 +62,10 @@ async function run() {
         console.log(req.query.propertyId);
         let query = {};
         if(req.query?.propertyId){
-            query = {propertyId: req.query.propertyId}
+            query = {propertyId: req.query.propertyId};
+        }
+        else if(req.query?.userEmail){
+            query = {userEmail: req.query.userEmail};
         }
 
         const cursor = ReviewsCollection.find(query);
