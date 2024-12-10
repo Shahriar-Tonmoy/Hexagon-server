@@ -7,7 +7,7 @@ const ObjectId = require('mongodb').ObjectId;
 const port = process.env.PORT || 3000;
 
 app.use(cors({
-    origin: allowedOrigins,
+    origin: '*',
     credentials: true,
     methods: '*', 
     allowedHeaders: '*'
