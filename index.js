@@ -6,14 +6,21 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const ObjectId = require('mongodb').ObjectId;
 const port = process.env.PORT || 3000;
 
-app.use(cors({
-    origin: '*',
-    credentials: true,
-    methods: '*', 
-    allowedHeaders: '*'
-}));
+// CORS Configuration
+const corsOptions = {
+  origin: [
+      "https://659fdebf9dcf1b03279a1061--shimmering-crostata-52a706.netlify.app", // Replace with your Netlify domain
+      "http://localhost:3000", // For local testing
+  ],
+  methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS",
+  allowedHeaders: "Content-Type,Authorization",
+  credentials: true,
+};
 
-app.use(cors());
+// Apply CORS middleware
+app.use(cors(corsOptions));
+
+// app.use(cors());
   app.use(express.json());
   
   
