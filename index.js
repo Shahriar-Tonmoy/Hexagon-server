@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 app.use(cors({
     origin: allowedOrigins,
     credentials: true,
-    methods: '*',
+    methods: '*', 
     allowedHeaders: '*'
 }));
 
@@ -51,6 +51,10 @@ async function run() {
     //await client.connect();
 
     //get some data
+
+     app.get('/test', async (req, res) =>{
+         console.log('Updated')
+     }) 
     app.get('/properties', async (req, res) =>{
         
         console.log(req.query.agentEmail);
